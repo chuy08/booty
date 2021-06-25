@@ -1,0 +1,30 @@
+templates:
+  - path: templates/template.txt.erb
+    values:
+      fruit: Apple
+      cities:
+        north: Miniapolis
+        south: New Orleans
+        east: Baltimore
+        west: Los Angeles
+  - path: templates/template.xml.erb
+    executable: true
+    values:
+      captain: Kirk
+      science: Spock
+      helm: Sulu
+
+main-process:
+  - command: echo
+    args:
+    - banana
+
+co-processes:
+  - command: sh
+    args:
+    - -c
+    - "sleep 5; echo foo"
+  - command: sh
+    args:
+    - -c
+    - "sleep 10; echo bar"
