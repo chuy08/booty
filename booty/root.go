@@ -1,11 +1,12 @@
 package booty
 
 import (
-	"fmt"
+	"os"
+
+	homedir "github.com/mitchellh/go-homedir"
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	homedir "github.com/mitchellh/go-homedir"
-	"os"
 )
 
 var cfgFile string
@@ -22,14 +23,14 @@ var rootCmd = &cobra.Command{
 		//fmt.Println(file)
 		//fmt.Println(cmd)
 		entry(cmd, args)
-	 },
+	},
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err)
+		log.Error(err)
 		os.Exit(1)
 	}
 }
@@ -47,7 +48,7 @@ func init() {
 	// when this action is called directly.
 	//rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	rootCmd.Flags().StringP("file", "f", "bootstrap.yaml", "Yaml input")
-
+	rootCmd.Flags().StringP("extension", "e", ".erb", "Template file extension")
 }
 
 // initConfig reads in config file and ENV variables if set.
@@ -59,7 +60,7 @@ func initConfig() {
 		// Find home directory.
 		home, err := homedir.Dir()
 		if err != nil {
-			fmt.Println(err)
+			log.Error(err)
 			os.Exit(1)
 		}
 
@@ -72,7 +73,7 @@ func initConfig() {
 
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
-		fmt.Println("Using config file:", viper.ConfigFileUsed())
+		log.Info("Using config file:", viper.ConfigFileUsed())
 	}
 }
 

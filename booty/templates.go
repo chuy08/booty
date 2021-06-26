@@ -1,12 +1,11 @@
 package booty
 
 import (
-	"fmt"
 	"html/template"
-	"log"
 	"os"
 	"strings"
-	//log "github.com/sirupsen/logrus"
+
+	log "github.com/sirupsen/logrus"
 )
 
 func chomp(filename string) string {
@@ -18,7 +17,7 @@ func readPath(filename string, values map[string]interface{}) {
 
 	t, err := template.ParseFiles(filename)
 	if err != nil {
-		fmt.Println(err)
+		log.Error(err)
 		return
 	}
 
@@ -38,15 +37,13 @@ func readPath(filename string, values map[string]interface{}) {
 }
 
 func executable(b bool) {
-	fmt.Println("Hi chuy from exectuable bool: ", b)
+	log.Info("Hi chuy from exectuable bool: ", b)
 }
 
 func parseTemplates(input Templates) {
-	fmt.Println("Parsing config templates")
-	//fmt.Println(input)
+	log.Info("Parsing config templates")
 
 	for _, i := range input {
-		//fmt.Println(i)
 		readPath(i.Path, i.Values)
 
 		//if i.Executable {
