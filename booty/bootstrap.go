@@ -27,7 +27,7 @@ type Input struct {
 	CoProcesses Process   `yaml:"co-processes"`
 }
 
-func readConf(filename string) {
+func readConf(filename, extension string) {
 	buf, err := ioutil.ReadFile(filename)
 	if err != nil {
 		log.Error(err)
@@ -39,11 +39,12 @@ func readConf(filename string) {
 		log.Error("in file %q: %v", filename, err)
 	}
 
-	log.Info("Templates: ", result.Templates)
-	parseTemplates(result.Templates)
-	log.Info("Co: ", result.CoProcesses)
-	parseCommand(result.CoProcesses)
-	log.Info("Main: ", result.MainProcess)
+	//log.Info("Templates: ", result.Templates)
+	//parseTemplates(result.Templates)
+	//log.Info("Co: ", result.CoProcesses)
+	//parseCommand(result.CoProcesses)
+	//log.Info("Main: ", result.MainProcess)
+	parseCommand(result.MainProcess)
 }
 
 func entry(cmd *cobra.Command, args []string) {
@@ -55,5 +56,5 @@ func entry(cmd *cobra.Command, args []string) {
 	log.Info("Yaml Input: ", fileName)
 	log.Info("Template Extension: ", extension)
 
-	readConf(fileName)
+	readConf(fileName, extension)
 }

@@ -1,36 +1,37 @@
 package booty
 
 import (
-	"bytes"
+	"os"
 	"os/exec"
+	"strings"
 
 	log "github.com/sirupsen/logrus"
 )
 
 func parseCommand(process Process) {
-	var command bytes.Buffer
-
+	log.Info("Process: ", process)
 	for _, v := range process {
-		command.WriteString(v.Command)
-		command.WriteString(" ")
-		for _, vv := range v.Args {
-			command.WriteString(vv)
-			command.WriteString(" ")
-		}
-
-		runCommand(command)
+		a := strings.Join(v.Args, ", ")
+		runCommand(v.Command, a)
 	}
 }
 
-func runCommand(command bytes.Buffer) {
-	log.Info("Command: ", command.String())
-
-	out, err := exec.Command(command.String()).Output()
-
+func runCommand(c, a string) {
+	cmd, err := exec.LookPath(c)
 	if err != nil {
-		log.Fatal(err)
+		log.Error("Look Path ", err)
 	}
 
-	log.Info(string(out))
+	// cmd structure
+	do := &exec.Cmd{
+		Path:   cmd,
+		Args:   []string{cmd, a},
+		Stdout: os.Stdout,
+		Stderr: os.Stdout,
+	}
 
+	//fmt.Println(do.String())
+	if err := do.Run(); err != nil {
+		log.Error(err)
+	}
 }

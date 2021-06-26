@@ -13,7 +13,6 @@ func chomp(filename string) string {
 }
 
 func readPath(filename string, values map[string]interface{}) {
-	//fmt.Println("Hi chuy from readPath: ", filename)
 
 	t, err := template.ParseFiles(filename)
 	if err != nil {
@@ -50,5 +49,4 @@ func parseTemplates(input Templates) {
 		//	executable(i.Executable)
 		//}
 	}
-
 }
