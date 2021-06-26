@@ -2,20 +2,19 @@ package booty
 
 import (
 	"fmt"
+	"html/template"
 	"log"
 	"os"
 	"strings"
-	"text/template"
+	//log "github.com/sirupsen/logrus"
 )
 
 func chomp(filename string) string {
 	return strings.TrimSuffix(filename, ".erb")
 }
 
-func readPath(filename string) {
-	fmt.Println("Hi chuy from readPath: ", filename)
-
-	n := map[string]string{"foo": "foobar", "bar": "barfoo"}
+func readPath(filename string, values map[string]interface{}) {
+	//fmt.Println("Hi chuy from readPath: ", filename)
 
 	t, err := template.ParseFiles(filename)
 	if err != nil {
@@ -29,7 +28,7 @@ func readPath(filename string) {
 		return
 	}
 
-	err = t.Execute(f, n)
+	err = t.Execute(f, values)
 	if err != nil {
 		log.Print("execute: ", err)
 		return
@@ -42,18 +41,13 @@ func executable(b bool) {
 	fmt.Println("Hi chuy from exectuable bool: ", b)
 }
 
-func parseValues(v map[string]interface{}) {
-	fmt.Println("Hi chuy from parseValues", v)
-}
-
 func parseTemplates(input Templates) {
 	fmt.Println("Parsing config templates")
 	//fmt.Println(input)
 
 	for _, i := range input {
 		//fmt.Println(i)
-		//parseValues(i.Values)
-		readPath(i.Path)
+		readPath(i.Path, i.Values)
 
 		//if i.Executable {
 		//	executable(i.Executable)

@@ -1,10 +1,11 @@
 package booty
 
 import (
-	"fmt"
 	"io/ioutil"
 
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
+
 	"gopkg.in/yaml.v3"
 	//"os"
 )
@@ -24,40 +25,19 @@ type Input struct {
 func readConf(filename string) {
 	buf, err := ioutil.ReadFile(filename)
 	if err != nil {
-		fmt.Println(err)
+		log.Error(err)
 	}
 
 	var result Input
 	err = yaml.Unmarshal(buf, &result)
 	if err != nil {
-		fmt.Println(fmt.Errorf("in file %q: %v", filename, err))
+		log.Error("in file %q: %v", filename, err)
 	}
 
 	//fmt.Println(result)
 	//fmt.Println(result.Templates)
 
 	parseTemplates(result.Templates)
-
-	//fmt.Println(result)
-	//fmt.Println(result["templates"])
-
-	//for key := range result {
-	//fmt.Println("key: ", key, "result: ", result[key])
-	//switch vv := result[key].(type) {
-	//case string:
-	//	fmt.Println(key, "is a string", vv)
-	//case float64:
-	//	fmt.Println(key, "is a float64: ", vv)
-	//case []interface{}:
-	//	fmt.Println(key, "is an interface: ", vv)
-	//	for k, v := range vv {
-	//		fmt.Println("key: ", k, "value: ", v)
-	//	}
-	//default:
-	//	fmt.Println(key, "is type is unknown: ", vv)
-	//}
-	//}
-	//return parsed
 }
 
 func entry(cmd *cobra.Command, args []string) {
@@ -65,18 +45,7 @@ func entry(cmd *cobra.Command, args []string) {
 	//fmt.Println(args)
 
 	fileName, _ := cmd.Flags().GetString("file")
-	fmt.Printf("Filename: %s\n", fileName)
+	log.Info("Filename: ", fileName)
 
-	//c := readConf(fileName)
 	readConf(fileName)
-	//fmt.Println(c)
-
-	//t, err := template.New("todos").Parse("You have a task named \"{{ .Name}}\" with description: \"{{ .Description}}\"")
-	//if err != nil {
-	//	panic(err)
-	//}
-	//err = t.Execute(os.Stdout, c)
-	//if err != nil {
-	//	panic(err)
-	//}
 }
