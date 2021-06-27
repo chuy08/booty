@@ -3,7 +3,6 @@ package booty
 import (
 	"os"
 	"os/exec"
-	"strings"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -11,12 +10,15 @@ import (
 func parseCommand(process Process) {
 	log.Info("Process: ", process)
 	for _, v := range process {
-		a := strings.Join(v.Args, ", ")
+		var a []string
+
+		a = append(a, v.Command)
+		a = append(a, v.Args...)
 		runCommand(v.Command, a)
 	}
 }
 
-func runCommand(c, a string) {
+func runCommand(c string, args []string) {
 	cmd, err := exec.LookPath(c)
 	if err != nil {
 		log.Error("Look Path ", err)
@@ -25,7 +27,7 @@ func runCommand(c, a string) {
 	// cmd structure
 	do := &exec.Cmd{
 		Path:   cmd,
-		Args:   []string{cmd, a},
+		Args:   args,
 		Stdout: os.Stdout,
 		Stderr: os.Stdout,
 	}

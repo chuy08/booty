@@ -27,8 +27,14 @@ type Input struct {
 	CoProcesses Process   `yaml:"co-processes"`
 }
 
-func readConf(filename, extension string) {
-	buf, err := ioutil.ReadFile(filename)
+func readYamlInput(cmd *cobra.Command, args []string) {
+	yamlInput, err := cmd.Flags().GetString("file")
+	if err != nil {
+		log.Error(err)
+	}
+	log.Infof("Using %s as input", yamlInput)
+
+	buf, err := ioutil.ReadFile(yamlInput)
 	if err != nil {
 		log.Error(err)
 	}
@@ -36,25 +42,10 @@ func readConf(filename, extension string) {
 	var result Input
 	err = yaml.Unmarshal(buf, &result)
 	if err != nil {
-		log.Error("in file %q: %v", filename, err)
+		log.Error("in file %q: %v", yamlInput, err)
 	}
 
-	//log.Info("Templates: ", result.Templates)
-	//parseTemplates(result.Templates)
-	//log.Info("Co: ", result.CoProcesses)
-	//parseCommand(result.CoProcesses)
-	//log.Info("Main: ", result.MainProcess)
-	parseCommand(result.MainProcess)
-}
-
-func entry(cmd *cobra.Command, args []string) {
-	//fmt.Println(cmd)
-	//fmt.Println(args)
-
-	fileName, _ := cmd.Flags().GetString("file")
-	extension, _ := cmd.Flags().GetString("extension")
-	log.Info("Yaml Input: ", fileName)
-	log.Info("Template Extension: ", extension)
-
-	readConf(fileName, extension)
+	parseTemplates(result.Templates)
+	parseCommand(result.CoProcesses)
+	//parseCommand(result.MainProcess)
 }

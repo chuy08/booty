@@ -12,7 +12,7 @@ func chomp(filename string) string {
 	return strings.TrimSuffix(filename, ".erb")
 }
 
-func readPath(filename string, values map[string]interface{}) {
+func readPath(filename string, values map[string]interface{}, e bool) {
 
 	t, err := template.ParseFiles(filename)
 	if err != nil {
@@ -33,20 +33,20 @@ func readPath(filename string, values map[string]interface{}) {
 	}
 
 	f.Close()
+
+	if e {
+		executable()
+	}
 }
 
-func executable(b bool) {
-	log.Info("Hi chuy from exectuable bool: ", b)
+func executable() {
+	log.Info("Hi chuy from exectuable")
 }
 
 func parseTemplates(input Templates) {
 	log.Info("Parsing config templates")
 
 	for _, i := range input {
-		readPath(i.Path, i.Values)
-
-		//if i.Executable {
-		//	executable(i.Executable)
-		//}
+		readPath(i.Path, i.Values, i.Executable)
 	}
 }

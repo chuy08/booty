@@ -19,10 +19,7 @@ var rootCmd = &cobra.Command{
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	Run: func(cmd *cobra.Command, args []string) {
-		//file, _:= cmd.Flags().GetString("file")
-		//fmt.Println(file)
-		//fmt.Println(cmd)
-		entry(cmd, args)
+		readYamlInput(cmd, args)
 	},
 }
 
@@ -48,7 +45,6 @@ func init() {
 	// when this action is called directly.
 	//rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	rootCmd.Flags().StringP("file", "f", "bootstrap.yaml", "Yaml input")
-	rootCmd.Flags().StringP("extension", "e", ".erb", "Template file extension")
 }
 
 // initConfig reads in config file and ENV variables if set.
