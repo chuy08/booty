@@ -3,12 +3,12 @@ package booty
 import (
 	"os"
 	"os/exec"
+	"strings"
 
 	log "github.com/sirupsen/logrus"
 )
 
 func parseCommand(process Process) {
-	log.Info("Process: ", process)
 	for _, v := range process {
 		var a []string
 
@@ -32,7 +32,7 @@ func runCommand(c string, args []string) {
 		Stderr: os.Stdout,
 	}
 
-	//fmt.Println(do.String())
+	log.Info("Running: ", strings.Join(args, " "))
 	if err := do.Run(); err != nil {
 		log.Error(err)
 	}

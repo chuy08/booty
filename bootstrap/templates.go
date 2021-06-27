@@ -20,7 +20,8 @@ func readPath(filename string, values map[string]interface{}, e bool) {
 		return
 	}
 
-	f, err := os.Create(chomp(filename))
+	configFile := chomp(filename)
+	f, err := os.Create(chomp(configFile))
 	if err != nil {
 		log.Println("create file: ", err)
 		return
@@ -35,17 +36,18 @@ func readPath(filename string, values map[string]interface{}, e bool) {
 	f.Close()
 
 	if e {
-		executable()
+		executable(configFile)
 	}
 }
 
-func executable() {
-	log.Info("Hi chuy from exectuable")
+func executable(configFile string) {
+	log.Infof("Making %s executable", configFile)
+	c := "chmod"
+	a := []string{c, "+x", configFile}
+	runCommand(c, a)
 }
 
 func parseTemplates(input Templates) {
-	log.Info("Parsing config templates")
-
 	for _, i := range input {
 		readPath(i.Path, i.Values, i.Executable)
 	}

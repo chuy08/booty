@@ -47,5 +47,6 @@ func readYamlInput(cmd *cobra.Command, args []string) {
 
 	parseTemplates(result.Templates)
 	parseCommand(result.CoProcesses)
-	//parseCommand(result.MainProcess)
+	parseCommand(result.MainProcess)
+	log.Info("And done")
 }
