@@ -21,7 +21,7 @@ func readPath(filename string, values map[string]interface{}, e bool) {
 	}
 
 	configFile := chomp(filename)
-	f, err := os.Create(chomp(configFile))
+	f, err := os.Create(configFile)
 	if err != nil {
 		log.Println("create file: ", err)
 		return
