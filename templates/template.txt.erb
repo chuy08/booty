@@ -1,5 +1,8 @@
-Hello {{ .Name }},
+You know what they say, An {{ .fruit }} a day keeps the doctor away.
 
-I'm told you work for {{ .Company }} and it's an amazing opportunity.
+This summer we can visit {{ .cities.west }}
 
-Thanks,
+We can range of our map and do cool things.
+{{ range $index, $element := .cities }}
+{{- $index }} - {{ $element }}
+{{ end }}

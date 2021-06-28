@@ -1,9 +1,9 @@
 package booty
 
 import (
-	"html/template"
 	"os"
 	"strings"
+	"text/template"
 
 	log "github.com/sirupsen/logrus"
 )
