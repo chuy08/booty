@@ -1,6 +1,7 @@
-package booty
+package cmd
 
 import (
+	"booty/pkg/booty"
 	"os"
 
 	homedir "github.com/mitchellh/go-homedir"
@@ -19,7 +20,7 @@ var rootCmd = &cobra.Command{
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	Run: func(cmd *cobra.Command, args []string) {
-		readYamlInput(cmd, args)
+		booty.ReadYamlInput(cmd, args)
 	},
 }
 

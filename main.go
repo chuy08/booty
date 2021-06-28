@@ -1,7 +1,7 @@
 package main
 
 import (
-	"booty/bootstrap"
+	"booty/cmd"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -12,5 +12,5 @@ func main() {
 	log.SetFormatter(Formatter)
 
 	log.Info("Bootstraping with booty and away we go!!!")
-	booty.Execute()
+	cmd.Execute()
 }
