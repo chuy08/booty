@@ -1,6 +1,11 @@
-### booty
-```
-Bootstrap Docker configuration files.
+## Booty
+
+### build
+make all
+./booty --help
+
+```shell
+Bootstrap Docker configuration files from yaml templates.
 
 Usage:
   booty [flags]
@@ -11,9 +16,10 @@ Available Commands:
   version     Application Version
 
 Flags:
-      --config string   config file (default is $HOME/.bootstrap.yaml)
-  -f, --file string     Yaml input (default "bootstrap.yaml")
-  -h, --help            help for booty
+      --config string      config file (default is $HOME/.bootstrap.yaml)
+  -f, --file string        Yaml input (default "bootstrap.yaml")
+  -h, --help               help for booty
+  -v, --verbosity string   Log level (debug, info, warn, error, fatal, panic (default "warning")
 
 Use "booty [command] --help" for more information about a command.
 ```
