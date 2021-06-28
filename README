@@ -1,9 +1,17 @@
 ## Booty
 
 ### build
+```shell
 make all
-./booty --help
+```
 
+### working example
+```shell
+./booty --help
+./booty -f templates/democfg.yaml -v debug
+```
+
+### Help menu
 ```shell
 Bootstrap Docker configuration files from yaml templates.
 

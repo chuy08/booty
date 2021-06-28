@@ -53,7 +53,7 @@ func init() {
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.bootstrap.yaml)")
-	rootCmd.PersistentFlags().StringVarP(&v, "verbosity", "v", log.WarnLevel.String(), "Log level (debug, info, warn, error, fatal, panic")
+	rootCmd.PersistentFlags().StringVarP(&v, "verbosity", "v", log.InfoLevel.String(), "Log level (debug, info, warn, error, fatal, panic")
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
@@ -63,6 +63,7 @@ func init() {
 
 //setUpLogs set the log output ans the log level
 func setUpLogs(out io.Writer, level string) error {
+	log.Debug("Inside setUpLogs")
 	lvl, err := log.ParseLevel(level)
 	if err != nil {
 		return err
