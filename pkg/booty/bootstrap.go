@@ -28,6 +28,9 @@ type Input struct {
 }
 
 func ReadYamlInput(cmd *cobra.Command, args []string) {
+	log.Info("Bootstraping with booty and away we go!!!")
+	log.Debug("Testing debug")
+
 	yamlInput, err := cmd.Flags().GetString("file")
 	if err != nil {
 		log.Error(err)
