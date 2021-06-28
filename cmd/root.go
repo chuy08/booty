@@ -68,24 +68,13 @@ func setUpLogs(out io.Writer, level string) error {
 		return err
 	}
 
-	//log := &log.Logger{
-	//	Out:   os.Stdout,
-	//	Level: lvl,
-	//	Formatter: &myFormatter{log.TextFormatter{
-	//		FullTimestamp:          true,
-	//		TimestampFormat:        "2006-01-02 15:04:05",
-	//		ForceColors:            true,
-	//		DisableLevelTruncation: true,
-	//	},
-	//	},
-	//}
-	//log.Info("Chuy a test")
-	//Formatter := new(log.TextFormatter)
-	//Formatter.TimestampFormat = "02-01-2006 15:04:05"
-
-	//log.SetFormatter(Formatter)
-	//log.SetOutput(out)
 	log.SetLevel(lvl)
+
+	log.SetFormatter(&log.TextFormatter{
+		ForceColors:     false,
+		FullTimestamp:   true,
+		TimestampFormat: "2006-01-02 15:04:05",
+	})
 
 	return nil
 }
