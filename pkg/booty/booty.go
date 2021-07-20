@@ -9,6 +9,12 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
+type Things struct {
+	Args      []string
+	Cmd       *cobra.Command
+	Verbosity string
+}
+
 type Process []struct {
 	Command string   `yaml:"command"`
 	Args    []string `yaml:"args"`
@@ -26,10 +32,12 @@ type Input struct {
 	CoProcesses Process   `yaml:"co-processes"`
 }
 
-func ReadYamlInput(cmd *cobra.Command, args []string) {
+//func ReadYamlInput(cmd *cobra.Command, args []string) {
+func ReadYamlInput(p Things) {
+
 	log.Info("Bootstraping with booty and away we go!!!")
 
-	yamlInput, err := cmd.Flags().GetString("file")
+	yamlInput, err := p.Cmd.Flags().GetString("file")
 	if err != nil {
 		log.Error(err)
 	}
@@ -47,11 +55,11 @@ func ReadYamlInput(cmd *cobra.Command, args []string) {
 		log.Error("in file %q: %v", yamlInput, err)
 	}
 
-	parseTemplates(result.Templates)
+	p.parseTemplates(result.Templates)
 	log.Debugf("Template: %s", result.Templates)
-	parseCommand(result.CoProcesses)
+	p.parseCommand(result.CoProcesses)
 	log.Debugf("Co-process: %s", result.CoProcesses)
-	parseCommand(result.MainProcess)
+	p.parseCommand(result.MainProcess)
 	log.Debugf("Main-process: %s", result.MainProcess)
 
 	log.Info("And done")

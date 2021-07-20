@@ -11,7 +11,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-var v string
+var Verbose string
 var cfgFile string
 
 type myFormatter struct {
@@ -26,7 +26,14 @@ var rootCmd = &cobra.Command{
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	Run: func(cmd *cobra.Command, args []string) {
-		booty.ReadYamlInput(cmd, args)
+
+		var p = booty.Things{
+			Args:      args,
+			Cmd:       cmd,
+			Verbosity: Verbose,
+		}
+
+		booty.ReadYamlInput(p)
 	},
 }
 
@@ -43,7 +50,7 @@ func init() {
 	cobra.OnInitialize(initConfig)
 
 	rootCmd.PersistentPreRunE = func(cmd *cobra.Command, args []string) error {
-		if err := setUpLogs(os.Stdout, v); err != nil {
+		if err := setUpLogs(os.Stdout, Verbose); err != nil {
 			return err
 		}
 		return nil
@@ -53,7 +60,7 @@ func init() {
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.bootstrap.yaml)")
-	rootCmd.PersistentFlags().StringVarP(&v, "verbosity", "v", log.InfoLevel.String(), "Log level (debug, info, warn, error, fatal, panic")
+	rootCmd.PersistentFlags().StringVarP(&Verbose, "verbosity", "v", log.InfoLevel.String(), "Log level (debug, info, warn, error, fatal, panic")
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.

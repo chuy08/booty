@@ -12,7 +12,7 @@ func chomp(filename string) string {
 	return strings.TrimSuffix(filename, ".erb")
 }
 
-func readPath(filename string, values map[string]interface{}, e bool) {
+func (p Things) readPath(filename string, values map[string]interface{}, e bool) {
 
 	t, err := template.ParseFiles(filename)
 	if err != nil {
@@ -36,19 +36,19 @@ func readPath(filename string, values map[string]interface{}, e bool) {
 	f.Close()
 
 	if e {
-		executable(configFile)
+		p.executable(configFile)
 	}
 }
 
-func executable(configFile string) {
+func (p Things) executable(configFile string) {
 	log.Infof("Making %s executable", configFile)
 	c := "chmod"
 	a := []string{c, "+x", configFile}
-	runCommand(c, a)
+	p.runCommand(c, a)
 }
 
-func parseTemplates(input Templates) {
+func (p Things) parseTemplates(input Templates) {
 	for _, i := range input {
-		readPath(i.Path, i.Values, i.Executable)
+		p.readPath(i.Path, i.Values, i.Executable)
 	}
 }

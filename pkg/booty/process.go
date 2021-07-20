@@ -8,17 +8,17 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func parseCommand(process Process) {
+func (p Things) parseCommand(process Process) {
 	for _, v := range process {
 		var a []string
 
 		a = append(a, v.Command)
 		a = append(a, v.Args...)
-		runCommand(v.Command, a)
+		p.runCommand(v.Command, a)
 	}
 }
 
-func runCommand(c string, args []string) {
+func (p Things) runCommand(c string, args []string) {
 	cmd, err := exec.LookPath(c)
 	if err != nil {
 		log.Error("Look Path ", err)
@@ -31,6 +31,8 @@ func runCommand(c string, args []string) {
 		Stdout: os.Stdout,
 		Stderr: os.Stdout,
 	}
+
+	log.Info(p.Verbosity)
 
 	log.Info("Running: ", strings.Join(args, " "))
 	if err := do.Run(); err != nil {
